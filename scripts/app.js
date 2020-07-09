@@ -2,52 +2,85 @@ axios.get('https://localhost:44319/api/books')
     .then(function(response) {
         console.log(response.data);
 
-        response.data.array.forEach(book => {
+        response.data.forEach(book => {
             createBookCard(book);
-
-
-
         });
     })
     .catch(function(error) {
         console.log(error);
     });
 
-
-
 function createBookCard(book) {
 
-    var carColumn = document.createElement("div");
-    card.classList.add("col-md-3");
+    var cardColumn = document.createElement("div");
+    cardColumn.classList.add("col-md-3");
+
+    var card = document.createElement("div");
+    card.classList.add("card");
+
+    cardColumn.appendChild(card);
 
     var cardBody = document.createElement("div");
     card.classList.add("card-body");
-}
 
-function existsInLocalStorage(bookId) {
+    card.appendChild(cardBody);
 
-    var existingStorage = localStorage.getItem("cartItems"); // vo local storage se cuva kako string i so parse pravime objekt
-    var exists = false;
-    if (existingStorage != null) {
-        var parsed = JSON.parse(existingStorage)
-        exists = parsed.indexOf(bookId) !== -1;
+    var cardTitle = document.createElement("h4");
+    cardTitle.classList.add("card-title");
+    cardTitle.innerHtml = book.Title;
+
+    cardBody.appendChild(cardTitle);
+
+    var cardAuthor = document.createElement("h4");
+    cardAuthor.classList.add("card-title");
+    cardAuthor.innerHtml = `Author: ${book.author}`;
+
+    cardBody.appendChild(cardAuthor);
+
+    var cardDescription = document.createElement("p");
+    cardDescription.classList.add("card-text");
+    cardDescription.innerHtml = book.description;
+
+    cardBody.appendChild(cardDescription);
+
+    var cardPrice = document.createElement("p");
+    cardPrice.classList.add("card-text");
+    cardPrice.innerHtml = `Price: ${book.Price}`;
+    cardBody.appendChild(cardPrice);
+
+    var cardGenre = document.createElement("p");
+    cardGenre.classList.add("card-text");
+    cardGenre.innerHtml = `Genre: ${book.genre}`;
+    cardBody.appendChild(cardGenre);
+
+    var cardBtn = document.createElement("button");
+    cardBtn.classList.add("btn");
+    cardBtn.classList.add("btn-primary");
+
+
+
+    if (storageService.existsInLocalStorage(book.id, "cartItems")) {
+        cardBtn.innerHtml = "Remove from cart";
+        cardBtn.onclick = function(e) {
+            removeFromCart(e, book.id);
+        };
+    } else {
+        cardBtn.innerHtml = "Add to cart";
+        cardBtn.onclick = function(e) {
+            addToCart(e, book.id);
+        };
     }
-    return exists;
-}
-//zemame od local storage
-//parse
-//check dali postoi ili ne 
-//i vrakjame true or false
 
+    cardBody.appendChild(cardBtn);
+
+    var cardContainer = document.getElementById("card-container");
+    cardContainer.appendChild(cardColumn);
 }
+
+
 
 function addToCart(event, bookId) {
-    // alert(bookId);
-    //add to existing
-    //serialize
-    //change add to cart to remove from cart
-    //so event.target go zemame kliknato kopce
-    addToLocalStorage(bookId);
+    storageService.addToLocalStorage(bookId, "cartItems");
     event.target.innerHtml = "Remove from cart";
     event.target.onclick = function(e) {
         removeFromCart(e, bookId);
@@ -55,46 +88,19 @@ function addToCart(event, bookId) {
 }
 
 function removeFromCart(event, bookId) {
-    alert(bookId);
-    var existingStorage = localStorage.getItems("cartItems");
-    if (existingStorage != null) {
-        var storage = JSON.parse(existingStorage);
-        var index = storage.indexOf(bookId);
-
-        if (index != -1) { // ova znaci deka postoi
-            storage.splice(index, 1);
-            localStorage.setItem(Json.stringify(storage));
-        }
+    storageService.removeFromLocalStorage(bookId, "cartItems");
+    event.target.innerHtml = "Add to cart";
+    event.target.onclick = function(e) {
+        addToCart(e, bookId);
     }
-
 }
-
-function addToLocalStorage(bookId) {
-    var storageData = []; //prazen array
-
-    //get items from local storage
-    var existingStorage = localStorage.getItem("cartItems");
-
-    if (existingStorage != null) {
-        storageData = JSON.parse(existingStorage);
-    }
-
-    if (storageData.indexOf(bookId) == -1) {
-        storageData.push(bookId);
-    }
-    var serialized = JSON.stringify(storageData);
-
-    localStorage.setItem("cartItems", serialized) //cartItems=key po ova ke barame vo localStorage
-
-}
-
 
 
 //ovaa karticka treba da ja iskreirame so manipulacija na DOM
 
 // <div class="col-md-3">
 //             <div class="card" style="width: 18rem;">
-//                 <img src="..." class="card-img-top" alt="...">
+//                 
 //                 <div class="card-body">
 //                     <h5 class="card-title">Zoki Poki</h5>
 //                     <h5 class="card-title">Author: Olivera Nikolova</h5>
