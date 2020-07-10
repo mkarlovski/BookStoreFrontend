@@ -13,10 +13,10 @@ storageService = {
         var storageData = []; //prazen array
 
         //get items from local storage
-        var existingStorage = localStorage.getItem(storageKey);
+        var existingStorage = localStorage.getItem(storageKey); // vaka gi zema kako string
 
         if (existingStorage != null) {
-            storageData = JSON.parse(existingStorage);
+            storageData = JSON.parse(existingStorage); //pretvori vo objekt ili array
         }
 
         if (storageData.indexOf(bookId) == -1) {
@@ -36,6 +36,8 @@ storageService = {
             })
             localStorage.setItem(storageKey, JSON.stringify(storage));
         }
-
+    },
+    getFromLocalStorage: function(storageKey) {
+        return JSON.parse(localStorage.getItem(storageKey))
     }
 }

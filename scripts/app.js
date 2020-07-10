@@ -11,6 +11,7 @@ axios.get('https://localhost:44319/api/books')
     });
 
 function createBookCard(book) {
+    console.log(book);
 
     var cardColumn = document.createElement("div");
     cardColumn.classList.add("col-md-3");
@@ -27,30 +28,30 @@ function createBookCard(book) {
 
     var cardTitle = document.createElement("h4");
     cardTitle.classList.add("card-title");
-    cardTitle.innerHtml = book.Title;
+    cardTitle.innerHTML = book.title;
 
     cardBody.appendChild(cardTitle);
 
     var cardAuthor = document.createElement("h4");
     cardAuthor.classList.add("card-title");
-    cardAuthor.innerHtml = `Author: ${book.author}`;
+    cardAuthor.innerHTML = `Author: ${book.author}`;
 
     cardBody.appendChild(cardAuthor);
 
     var cardDescription = document.createElement("p");
     cardDescription.classList.add("card-text");
-    cardDescription.innerHtml = book.description;
+    cardDescription.innerHTML = book.description;
 
     cardBody.appendChild(cardDescription);
 
     var cardPrice = document.createElement("p");
     cardPrice.classList.add("card-text");
-    cardPrice.innerHtml = `Price: ${book.Price}`;
+    cardPrice.innerHTML = `Price: ${book.price}`;
     cardBody.appendChild(cardPrice);
 
     var cardGenre = document.createElement("p");
     cardGenre.classList.add("card-text");
-    cardGenre.innerHtml = `Genre: ${book.genre}`;
+    cardGenre.innerHTML = `Genre: ${book.genre}`;
     cardBody.appendChild(cardGenre);
 
     var cardBtn = document.createElement("button");
@@ -60,12 +61,12 @@ function createBookCard(book) {
 
 
     if (storageService.existsInLocalStorage(book.id, "cartItems")) {
-        cardBtn.innerHtml = "Remove from cart";
+        cardBtn.innerHTML = "Remove from cart";
         cardBtn.onclick = function(e) {
             removeFromCart(e, book.id);
         };
     } else {
-        cardBtn.innerHtml = "Add to cart";
+        cardBtn.innerHTML = "Add to cart";
         cardBtn.onclick = function(e) {
             addToCart(e, book.id);
         };
@@ -81,7 +82,7 @@ function createBookCard(book) {
 
 function addToCart(event, bookId) {
     storageService.addToLocalStorage(bookId, "cartItems");
-    event.target.innerHtml = "Remove from cart";
+    event.target.innerHTML = "Remove from cart";
     event.target.onclick = function(e) {
         removeFromCart(e, bookId);
     }
@@ -89,7 +90,7 @@ function addToCart(event, bookId) {
 
 function removeFromCart(event, bookId) {
     storageService.removeFromLocalStorage(bookId, "cartItems");
-    event.target.innerHtml = "Add to cart";
+    event.target.innerHTML = "Add to cart";
     event.target.onclick = function(e) {
         addToCart(e, bookId);
     }
