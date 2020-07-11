@@ -32,12 +32,16 @@ storageService = {
         if (existingStorage != null) {
             var storage = JSON.parse(existingStorage);
             storage = storage.filter(x => {
-                return x != bookid;
+                return x != bookId;
             })
             localStorage.setItem(storageKey, JSON.stringify(storage));
         }
     },
     getFromLocalStorage: function(storageKey) {
         return JSON.parse(localStorage.getItem(storageKey))
+    },
+    clearStorage: function(storageKey) {
+        localStorage.removeItem(storageKey);
+
     }
 }

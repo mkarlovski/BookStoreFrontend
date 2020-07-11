@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="./styles/app.css">
+    <link rel="stylesheet" href="./styles/cart.css">
     <title>Book Store</title>
 </head>
 
@@ -37,11 +38,6 @@
     <div class="container">
         <h2>Cart</h2>
         <div id="card-container">
-            <div class="card border-dark">
-                <p>Title</p>
-                <p>Description</p>
-                <p>Price</p>
-            </div>
         </div>
     </div>
 
@@ -62,7 +58,7 @@
             <label for="customerPhone">Phone</label>
             <input class="form-control" id="customerPhone" placeholder="Please enter your phone number">
         </div>
-        <button class="btn btn-primary" type="submit">Order</button>
+        <button class="btn btn-primary" onclick="orderBooks()">Order</button>
     </div>
 
 
