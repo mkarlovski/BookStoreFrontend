@@ -79,12 +79,12 @@ function orderBooks() {
 
             })
             .catch(function(error) {
-                console.log(error.response);
-                if (error.response.status == 400) {
-                    alert(JSON.stringify(error.response.data.errors));
-                } else {
-                    alert("Something went wrong");
-                }
+                // console.log(error.response);
+                // if (error.response.status == 400) {
+                //     alert(JSON.stringify(error.response.data.errors));
+                // } else {
+                //     alert("Something went wrong");
+                // }
             });
     }
 }
